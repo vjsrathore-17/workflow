@@ -1,0 +1,9 @@
+python-multipart=0.0.20
+pydantic=2.10.4
+typing-extensions>=4.8.0
+starlette=0.41.3
+pydantic-core==2.27.2
+annotated-types>=0.6.0
+anyio<5,>=3.4.0
+idna>=2.8
+sniffio>=1.1

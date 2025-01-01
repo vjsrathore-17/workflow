@@ -1,9 +1,6 @@
-// toolbar.js
+import DraggableNode from './draggableNode';
 
-import { DraggableNode } from './draggableNode';
-
-export const PipelineToolbar = () => {
-
+export default function PipelineToolbar() {
     return (
         <div style={{ padding: '10px' }}>
             <div style={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>

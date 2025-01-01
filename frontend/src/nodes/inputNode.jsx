@@ -1,9 +1,7 @@
-// inputNode.js
-
 import { useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
-export const InputNode = ({ id, data }) => {
+export default function InputNode({ id, data }){
   const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
   const [inputType, setInputType] = useState(data.inputType || 'Text');
 

@@ -1,9 +1,7 @@
-// textNode.js
-
 import { useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
-export const TextNode = ({ id, data }) => {
+export default function TextNode ({ id, data }) {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
 
   const handleTextChange = (e) => {

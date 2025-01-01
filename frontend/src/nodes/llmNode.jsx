@@ -1,9 +1,6 @@
-// llmNode.js
-
 import { Handle, Position } from 'reactflow';
 
-export const LLMNode = ({ id, data }) => {
-
+export default function LLMNode ({ id, data }) {
   return (
     <div style={{width: 200, height: 80, border: '1px solid black'}}>
       <Handle

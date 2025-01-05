@@ -4,16 +4,17 @@ import React from 'react';
 import NodeWrapper from '../HOCs/NodeWrapper.tsx';
 import { TextSnippet } from '@mui/icons-material';
 
-let textNodeData = {
+const textNodeData = {
   title: 'Text',
-  leftHandles: [''],
-  rightHandles: [''],
+  handles: {
+    leftHandles: [''],
+    rightHandles: ['']
+  },
   leftIcon: <TextSnippet />
 }
 
-const TextNode = ({ id, data }) => {
+const TextNode = ({handles, changeHandles, id, data }) => {
   const [currText, setCurrText] = useState(data?.text || '{{input}}');
-  const [leftHandles, setLeftHandles] = useState(['']);
 
   const handleTextChange = (value) => {
     setCurrText(value);
@@ -22,16 +23,17 @@ const TextNode = ({ id, data }) => {
 
     // Extract values without the curly braces
     const extracted = matches ? matches.map(match => match.slice(2, -2).trim()) : [];
-    setLeftHandles(extracted);
+    changeHandles((prevState) => ({
+      leftHandles: extracted,
+      rightHandles: prevState.rightHandles
+    }));
   };
 
   return (
-    <label>
-        <ResizableTextArea 
-            text={currText}
-            handleTextChange={handleTextChange}
-        />
-    </label>
+    <ResizableTextArea
+      text={currText}
+      handleTextChange={handleTextChange}
+    />
   );
 }
 

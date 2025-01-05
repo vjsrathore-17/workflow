@@ -1,32 +1,47 @@
-import React, { ComponentType, ReactNode, useEffect, useState } from "react";
+import React, { ComponentType, ReactNode, useEffect, useState, useContext } from "react";
 import { InfoOutlined, CancelOutlined } from '@mui/icons-material';
 import '../../styles/node.scss';
 import { Handle, Position } from 'reactflow';
 import IconButton from "@mui/material/IconButton";
+import { NodesContext } from "../Home";
 
 interface NodeData {
     title: string;
     leftIcon: ReactNode;
-    leftHandles: Array<string>;
-    rightHandles: Array<string>;
+    handles: {
+        leftHandles: Array<string>;
+        rightHandles: Array<string>;
+    }
 }
 
 const NodeWrapper = (nodeData: NodeData) => (Node: ComponentType<any>) => {
     return (props) => {
+      const { nodes, edges, onNodesChange, onEdgesChange } = useContext(NodesContext);
+      const [handles, setHandles] = useState(nodeData.handles);
       const removeNode = () => {
-        
+        const nodeIndex = nodes.findIndex(node => node.id == props.id);
+        const extraEdges = edges.filter((edge) => edge.source == nodes[nodeIndex].id || edge.target == nodes[nodeIndex].id);
+        extraEdges.forEach((edge) => {
+            const edgeIndex = edges.findIndex(e => e.id == edge.id)
+            edges.splice(edgeIndex, 1)
+        })
+        onEdgesChange(edges);
+        nodes.splice(nodeIndex,1);
+        onNodesChange(nodes);
       }
       return <>
         <div className="node">
-            {nodeData.leftHandles.map((handle,index) =>
+            {handles.leftHandles.map((handle,index) =>
                 <Handle
                     type="target"
                     position={Position.Left}
                     key={`${props.data.nodeType}-${index}-left`}
                     id={`${props.id}-${index}-value`}
-                    style={{top: `${(index+1)*100/(nodeData.leftHandles.length+1)}%`}}
+                    style={{top: `${(index+1)*100/(handles.leftHandles.length+1)}%`}}
                 >
-                    {handle}
+                    <div style={{marginLeft: '-60px'}}>
+                        {handle}
+                    </div>
                 </Handle>
             )}
             <div className="node-header">
@@ -44,15 +59,15 @@ const NodeWrapper = (nodeData: NodeData) => (Node: ComponentType<any>) => {
                 </div>
             </div>
             <div className="node-body">
-                <Node {...props} />
+                <Node handles={handles} changeHandles={(handles) => setHandles(handles)} {...props} />
             </div>
-            {nodeData.rightHandles.map((handle,index) =>
+            {handles.rightHandles.map((handle,index) =>
                 <Handle
                     type="source"
                     position={Position.Right}
                     key={`${props.data.nodeType}-${index}-right`}
                     id={`${props.id}-${index}-value`}
-                    style={{top: `${(index+1)*100/(nodeData.rightHandles.length+1)}%`}}
+                    style={{top: `${(index+1)*100/(handles.rightHandles.length+1)}%`}}
                 >
                     {handle}
                 </Handle>

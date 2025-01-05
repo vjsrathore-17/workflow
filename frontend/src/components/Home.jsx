@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, createContext } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from '../_private/utils/store.js';
 import { useShallow } from 'zustand/react/shallow'
@@ -12,6 +12,7 @@ import 'reactflow/dist/style.css';
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
+export const NodesContext = createContext();
 
 const nodeTypes = {
   customInput: InputNode,
@@ -87,7 +88,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <NodesContext.Provider value={{nodes, edges, onNodesChange, onEdgesChange}}>
       <PipelineToolbar />
       <div ref={reactFlowWrapper} style={{width: '100%', height: '80%', backgroundColor: '#fff', borderRadius: "8px"}}>
         <ReactFlow
@@ -110,6 +111,6 @@ export default function Home() {
         </ReactFlow>
       </div>
       <SubmitButton nodes={nodes} edges={edges} />
-    </>
+    </ NodesContext.Provider>
   )
 }

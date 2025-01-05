@@ -12,21 +12,23 @@ import '../../styles/input.scss';
 
 const inputNodeData = {
   title: 'Input',
-  leftHandles: [],
-  rightHandles: [''],
+  handles: {
+    leftHandles: [],
+    rightHandles: ['']
+  },
   leftIcon: <Input />
 }
 
-const InputNode = ({ id, data }) => {
+const InputNode = ({handles, changeHandles, id, data }) => {
   const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
-  const [inputType, setInputType] = useState('Text');
+  const [inputType, setInputType] = useState('1');
 
   const handleNameChange = (e) => {
     setCurrName(e.target.value);
   };
 
   const handleTypeChange = (e: SelectChangeEvent) => {
-    setInputType(e.target.value as string);
+    setInputType(e.target.value);
   };
 
   return <>
@@ -43,10 +45,17 @@ const InputNode = ({ id, data }) => {
             value={inputType}
             label="Type"
             onChange={handleTypeChange}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  zIndex: 1300, // Ensure the dropdown is above other elements
+                },
+              },
+            }}
             sx={{height: '50px'}}
           >
-            <MenuItem value={"Text"}>Text</MenuItem>
-            <MenuItem value={"File"}>File</MenuItem>
+            <MenuItem value={1}>Text</MenuItem>
+            <MenuItem value={2}>File</MenuItem>
           </Select>
         </FormControl>
       </Box>

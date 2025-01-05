@@ -20,14 +20,11 @@ const ResizableTextArea = ({text, handleTextChange}) => {
       ref={textAreaRef}
       value={text}
       onChange={handleChange}
-      placeholder="Type something..."
       style={{
         width: '100%',
         minHeight: '30px',
         resize: 'none',
         overflow: 'hidden',
-        fontSize: '12px',
-        lineHeight: '1.5',
       }}
     />
   );

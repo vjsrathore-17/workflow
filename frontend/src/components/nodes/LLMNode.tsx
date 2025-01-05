@@ -4,12 +4,14 @@ import { Assistant } from '@mui/icons-material';
 
 const llmNodeData = {
   title: 'OpenAI',
-  leftHandles: ['',''],
-  rightHandles: [''],
+  handles: {
+    leftHandles: ['',''],
+    rightHandles: [''],
+  },
   leftIcon: <Assistant />
 }
 
-const LLMNode = ({ id, data }) => {
+const LLMNode = ({handles, changeHandles,  id, data }) => {
   return <>
     <div>
         <span>LLM</span>

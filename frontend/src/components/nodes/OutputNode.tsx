@@ -10,8 +10,10 @@ import TextField from '@mui/material/TextField';
 
 const outputNodeData = {
   title: 'Output',
-  leftHandles: [''],
-  rightHandles: [],
+  handles: {
+    leftHandles: [''],
+    rightHandles: [],
+  },
   leftIcon: <Output />
 }
 
@@ -41,6 +43,13 @@ const OutputNode = ({ id, data }) => {
             label="Type"
             onChange={handleTypeChange}
             sx={{height: '50px'}}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  zIndex: 1300, // Ensure the dropdown is above other elements
+                },
+              },
+            }}
           >
             <MenuItem value={"Text"}>Text</MenuItem>
             <MenuItem value={"File"}>File</MenuItem>

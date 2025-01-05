@@ -7,7 +7,13 @@
     padding: '15px';
     border-radius: 4px;
     background-color: #fff;
-    border: 2px solid #4d3bc6;
+    border: 2px solid rgba(0, 0, 0, 0.54);
+    &:hover, &:focus, &:focus-visible {
+        border-color: #4d3bc6;
+        .react-flow__handle {
+            border-color: #4d3bc6; 
+        }
+    }
     .node-header {
         width: 100%;
         padding: 10px;
@@ -22,12 +28,48 @@
             gap: 5px;
         }
         .right {
-            svg {
+            display: flex;
+            align-items: center;
+            button {
                 cursor: pointer;
+                width: 14px;
+                height: 14px;
+                border: none;
+                outline: none;
+                margin-left: 5px;
+            }
+            svg:hover {
+                fill: #4d3bc6;
             }
         }
     }
     .node-body {
         padding: 0 20px;
+        textarea {
+            font-family: Roboto, Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.4375em;
+            letter-spacing: 0.00938em;
+            border: 2px solid rgba(0, 0, 0, 0.54);
+            border-radius: 4px;
+            outline: none;
+            &:hover, &:focus, &:focus-visible {
+                border-color: #4d3bc6;
+                outline: none;
+            }
+        }
+    }
+    .react-flow__handle {
+        border: 1px solid rgba(0, 0, 0, 0.54);
+        width: 16px;
+        height: 16px;
+        background-color: #fff;
+        &.react-flow__handle-right {
+            right: -7px;
+        }
+        &.react-flow__handle-left {
+            left: -7px;
+        }
     }
 }

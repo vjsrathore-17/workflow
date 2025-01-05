@@ -1,30 +1,37 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { SERVER_URL } from '../../_private/utils/consts';
+import axios, { AxiosResponse } from 'axios';
+import { SERVER_URL, AlertTypes } from '../../_private/utils/consts';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import Alert from '@mui/material/Alert';
 
-export default function SubmitButton({nodes,edges}) {
+export default function SubmitButton({nodes, edges }) {
   const [showAlert,setAlertState] = useState(false);
+  const [alertMessage, setAlertMessage] = useState<any>();
+  const [severity, setAlertSeverity] = useState<AlertTypes>("success");
+
   const onProcessWorkflow = async () => {
     try {
-      const response = await axios.post(`${SERVER_URL}/pipelines/parse`, {
-        nodes: nodes.map(node => node.id),
-        edges: edges.map(edge => ({
+      const response: AxiosResponse = await axios.post(`${SERVER_URL}/pipelines/parse`, {
+        nodes: nodes.map((node: any) => node.id),
+        edges: edges.map((edge: any) => ({
           source: edge.source,
           target: edge.target
         }))
       });
+      setAlertMessage(<div style={{textAlign: "left"}}>
+        Workflow processed successfully!<br />
+        It has {response.data.num_nodes as number} node(s) and {response.data.num_edges as number} edge(s).<br />
+        The nodes and edges in the pipeline {response.data.is_dag ? "": "do not"} form a directed acyclic graph (DAG).
+      </div>);
+      setAlertSeverity("success");
       setAlertState(true);
     } catch (error) {
-      console.error('Error:', error.response?.data || error.message);
-      throw error;
+      setAlertMessage(<div style={{textAlign: "left"}}>
+        {error.response?.data || error.message}
+      </div>);
+      setAlertSeverity("error");
+      setAlertState(true);
     }
-  }
-  const onReset = () => {
-
   }
   const handleClose = (
     event: React.SyntheticEvent | Event,
@@ -35,23 +42,11 @@ export default function SubmitButton({nodes,edges}) {
     }
 
     setAlertState(false);
+    setAlertMessage("");
   };
-  // const action = (
-  //   <React.Fragment>
-  //     <IconButton
-  //       size="small"
-  //       aria-label="close"
-  //       color="inherit"
-  //       onClick={handleClose}
-  //     >
-  //       <CloseIcon fontSize="small" />
-  //     </IconButton>
-  //   </React.Fragment>
-  // );
   return (
     <>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'end', color:'#fff', margin: '20px 0'}}>
-        <button type="button" onClick={onReset}>Reset</button>
         <button type="submit" onClick={onProcessWorkflow} style={{marginLeft: '10px'}}>Submit</button>
         <Snackbar
           open={showAlert}
@@ -59,17 +54,17 @@ export default function SubmitButton({nodes,edges}) {
           onClose={handleClose}
           style={{
             right: '24px',
-            bottom: 'calc(100% - 80px)',
+            bottom: '87%',
             left: 'auto'
           }}
         >
           <Alert
             onClose={handleClose}
-            severity="success"
+            severity={severity}
             variant="filled"
             sx={{ width: '100%' }}
           >
-            This is a success Alert inside a Snackbar!
+            {alertMessage}
           </Alert>
         </Snackbar>
       </div>

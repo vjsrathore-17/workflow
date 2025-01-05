@@ -1,3 +1,33 @@
 .node {
-    border: 1px solid #fff;
+    width: 300px;
+    min-height: 200px;
+    height: auto;
+    padding-bottom: 10px;
+    color: #191919;
+    padding: '15px';
+    border-radius: 4px;
+    background-color: #fff;
+    border: 2px solid #4d3bc6;
+    .node-header {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .left, .right {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .right {
+            svg {
+                cursor: pointer;
+            }
+        }
+    }
+    .node-body {
+        padding: 0 20px;
+    }
 }

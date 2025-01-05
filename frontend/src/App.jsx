@@ -1,13 +1,10 @@
-import PipelineToolbar from './components/toolbar';
-import PipelineUI from './components/ui';
-import SubmitButton from './components/submit';
+import Home from './components/Home';
+import './App.css';
 
 function App() {
   return (
-    <div>
-      <PipelineToolbar />
-      <PipelineUI />
-      <SubmitButton />
+    <div className='main'>
+      <Home />
     </div>
   );
 }
